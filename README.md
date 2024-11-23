@@ -8,10 +8,40 @@ For instance, an organization may have different storage accounts or database in
 
 ## Solution
 
-To overcome the challenge of stage-specific references in Spark notebooks, Microsoft Fabric allows for custom configurations to be applied as artifacts move through the Deployment Pipeline. Here’s a step-by-step approach to achieve this:
+To overcome the challenge of stage-specific references in Spark notebooks, Microsoft Fabric allows for custom configurations to be applied as artifacts move through the Deployment Pipeline. 
+
+![Overall_Arch](./images/000.png) 
+
+Here’s a step-by-step approach to achieve this:
+
+1. Start by creating two separate configuration files for each environment: Development and Production. These files should contain environment-specific parameters. After creating the files, upload them to their respective workspaces.
 
 
-## NEED TO ADD MORE DATA 
+    <div style="display: flex; justify-content: space-between;">
+    
+    <img src="./images/00config.png" alt="dev config" width="48%" />
+    <img src="./images/02Prodenv.png" alt="prod config" width="48%" />
+    </div>
+
+2. Next, create a notebook in the Development workspace. Within the notebook, reference the variable values from the config.json file to dynamically load environment-specific parameters.
+
+    ![development notebook](./images/01Dev.png)
+
+3. Create a [deployment pipeline](https://learn.microsoft.com/en-us/fabric/cicd/deployment-pipelines/get-started-with-deployment-pipelines?tabs=from-fabric%2Cnew%2Cstage-settings-new) and assign the appropriate workspaces to the respective stages.   
+
+    ![deployment pipeline](./images/03DeploymentPipeline.png)
+
+4. Create a rule to change lakehouse from development workspace to production workspace.
+
+    <div style="display: flex; justify-content: space-between;">
+    
+    <img src="./images/04rule.png" alt="dev config" width="48%" />
+    <img src="./images/05Deploymentruleset.png" alt="prod config" width="48%" />
+    </div>
+
+5. Once the deployment pipeline has completed successfully, navigate to the Production workspace and execute the notebook to confirm that the environment-specific parameters have been applied correctly.
+
+    ![production execution](./images/06Prod.png)
 
 
 ## Conclusion
